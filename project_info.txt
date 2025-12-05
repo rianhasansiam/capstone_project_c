@@ -1,0 +1,73 @@
+========================================
+   LIBRARY MANAGEMENT SYSTEM
+   PROJECT DATABASE INFORMATION
+========================================
+
+Project Name: Library Management System
+Language: C Programming
+Version: 1.0
+Date: December 3, 2025
+
+========================================
+   SYSTEM STATISTICS
+========================================
+Total Books: 4
+Total Users: 3
+Total Messages: 1
+Total Requests: 1
+
+Available Books: 4
+Issued Books: 0
+
+Admin Users: 1
+Regular Users: 2
+
+Pending Requests: 1
+Approved Requests: 0
+Rejected Requests: 0
+
+========================================
+   ALL BOOKS IN LIBRARY
+========================================
+ID: 1
+Title: C Programming
+Author: Dennis Ritchie
+Status: Available
+
+ID: 2
+Title: Data Structures
+Author: John Smith
+Status: Available
+
+ID: 3
+Title: Algorithms
+Author: Robert Sedgewick
+Status: Available
+
+ID: 4
+Title: ask
+Author: asd
+Status: Available
+
+========================================
+   ALL REGISTERED USERS
+========================================
+Username: admin
+Type: Admin
+
+Username: rian
+Type: Regular User
+
+Username: ammu
+Type: Regular User
+
+========================================
+   ALL BOOK REQUESTS
+========================================
+User: ammu
+Book: Data Structures (ID: 2)
+Status: Pending
+
+========================================
+   END OF PROJECT DATABASE
+========================================

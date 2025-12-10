@@ -1,3 +1,15 @@
 admin,admin123,1
 rian,123,0
 ammu,123,0
+d,"c:\Users\Rian,0
+asan,Siam\Desktop\capstone\Library_Management_System\",0
+&,gcc,0
+ibrary_system.c,-o,0
+ibrary_system,&&,0
+c:\Users\Rian,Hasan,0
+sdasddasd,asdasd,0
+sd,asdas,0
+s,sd,0
+iam\Desktop\capstone\Library_Management_System\",&&,0
+cc,library_system.c,0
+o,library_system,0

@@ -1,29 +1,16 @@
-/*
-========================================
-   LIBRARY MANAGEMENT SYSTEM
-   Author: Rian || Fabiha || Karib
-   Language: C Programming
-   Version: 1.0
-========================================
-*/
-
-#include <stdio.h>       // Standard input output library
+#include <stdio.h>      
 #include <stdlib.h>      // Standard library (memory allocation, system commands)
-#include <string.h>      // String manipulation functions
+#include <string.h>      
 #include <conio.h>       // Console input/output (getch function)
 
 // Maximum limits for arrays
-#define MAX_BOOKS 100       // Maximum number of books in library
-#define MAX_USERS 50        // Maximum number of registered users
-#define MAX_MESSAGES 50     // Maximum number of messages
-#define MAX_REQUESTS 100    // Maximum number of book requests
-#define MAX_STRING 100      // Maximum string length
+#define MAX_BOOKS 100       
+#define MAX_USERS 50       
+#define MAX_MESSAGES 50     
+#define MAX_REQUESTS 100    
+#define MAX_STRING 100      
 
-/*
-========================================
-   DATA STRUCTURES
-========================================
-*/
+
 
 // Structure to store book information
 struct Book
@@ -66,16 +53,16 @@ struct BookRequest
 */
 
 // Arrays to store all data in memory
-struct Book books[MAX_BOOKS];              // Array of all books
-struct User users[MAX_USERS];              // Array of all users
-struct Message messages[MAX_MESSAGES];     // Array of all messages
-struct BookRequest requests[MAX_REQUESTS]; // Array of all requests
+struct Book books[MAX_BOOKS];              
+struct User users[MAX_USERS];              
+struct Message messages[MAX_MESSAGES];     
+struct BookRequest requests[MAX_REQUESTS]; 
 
 // Counters to track number of records
-int bookCount = 0;       // Current number of books
-int userCount = 0;       // Current number of users
-int messageCount = 0;    // Current number of messages
-int requestCount = 0;    // Current number of requests
+int bookCount = 0;       
+int userCount = 0;       
+int messageCount = 0;    
+int requestCount = 0;    
 
 // Current session information
 char currentUser[MAX_STRING];  // Logged in username
@@ -93,19 +80,23 @@ void choice();                    // Ask user to continue or exit
 // File operations
 void loadAllData();               // Load all data from files
 void saveAllData();               // Save all data to files
+
+
 void saveBooksToFile();           // Save books to books.txt
 void loadBooksFromFile();         // Load books from books.txt
+
 void saveUsersToFile();           // Save users to users.txt
 void loadUsersFromFile();         // Load users from users.txt
+
 void saveMessagesToFile();        // Save messages to messages.txt
 void loadMessagesFromFile();      // Load messages from messages.txt
+
 void saveRequestsToFile();        // Save requests to requests.txt
 void loadRequestsFromFile();      // Load requests from requests.txt
+
 void saveProjectInfo();           // Generate project statistics report
 
 // System functions
-void initializeSystem();          // Create default admin and sample books
-void mainMenu();                  // Display main menu
 void viewProjectDetails();        // Show about/info page
 
 // User management
@@ -162,8 +153,62 @@ void choice()
 int main()
 {
     loadAllData();       // Load all existing data from database files
-    initializeSystem();  // Create default admin and sample books if needed
-    mainMenu();          // Start the main menu
+ 
+   int ch;
+    
+    while(1)
+    {
+        system("cls");
+        printf("\n");
+        printf("\t********************************************\n");
+        printf("\t*                                          *\n");
+        printf("\t*   LIBRARY MANAGEMENT SYSTEM              *\n");
+        printf("\t*                                          *\n");
+        printf("\t********************************************\n\n");
+        printf("\t[1] Register New User\n");
+        printf("\t[2] Login\n");
+        printf("\t[3] About Project\n");
+        printf("\t[0] Exit\n\n");
+        printf("\t============================================\n");
+        printf("\tEnter your choice: ");
+        scanf("%d", &ch);
+        
+        if(ch == 1)
+        {
+            registerUser();
+        }
+        else if(ch == 2)
+        {
+            if(loginUser())
+            {
+                if(isCurrentUserAdmin)
+                {
+                    adminMenu();
+                }
+                else
+                {
+                    userMenu();
+                }
+            }
+        }
+        else if(ch == 3)
+        {
+            viewProjectDetails();
+        }
+        else if(ch == 0)
+        {
+            printf("\nSaving all data...\n");
+            saveAllData();
+            printf("Thank you for using Library Management System!\n");
+            exit(0);
+        }
+        else
+        {
+            printf("\nInvalid choice! Please try again.\n");
+            getchar();
+            choice();
+        }
+    }
 
     return 0;
 }
@@ -193,100 +238,9 @@ void saveAllData()
     saveProjectInfo();        // Generate statistics report
 }
 
-// Initialize system with default admin account
-void initializeSystem()
-{
-    // Add default admin only if no users loaded from file
-    if(userCount == 0)
-    {
-        strcpy(users[0].username, "admin");
-        strcpy(users[0].password, "admin123");
-        users[0].isAdmin = 1;
-        userCount = 1;
-        saveUsersToFile();  // Save default admin
-    }
-    
-    // Add sample books only if no books loaded from file
-    if(bookCount == 0)
-    {
-        strcpy(books[0].id, "1");
-        strcpy(books[0].title, "C Programming");
-        strcpy(books[0].author, "Dennis Ritchie");
-        books[0].isIssued = 0;
-        strcpy(books[0].issuedTo, "");
-        
-        strcpy(books[1].id, "2");
-        strcpy(books[1].title, "Data Structures");
-        strcpy(books[1].author, "John Smith");
-        books[1].isIssued = 0;
-        strcpy(books[1].issuedTo, "");
-        
-        strcpy(books[2].id, "3");
-        strcpy(books[2].title, "Algorithms");
-        strcpy(books[2].author, "Robert Sedgewick");
-        books[2].isIssued = 0;
-        strcpy(books[2].issuedTo, "");
-        
-        bookCount = 3;
-        saveBooksToFile();  // Save sample books
-    }
-}
 
-// Main Menu
-void mainMenu()
-{
-    int ch;
-    
-    while(1)
-    {
-        system("cls");
-        printf("\n");
-        printf("\t********************************************\n");
-        printf("\t*                                          *\n");
-        printf("\t*   LIBRARY MANAGEMENT SYSTEM              *\n");
-        printf("\t*                                          *\n");
-        printf("\t********************************************\n\n");
-        printf("\t[1] Register New User\n");
-        printf("\t[2] Login\n");
-        printf("\t[3] About Project\n");
-        printf("\t[0] Exit\n\n");
-        printf("\t============================================\n");
-        printf("\tEnter your choice: ");
-        scanf("%d", &ch);
-        
-        switch(ch)
-        {
-            case 1:
-                registerUser();
-                break;
-            case 2:
-                if(loginUser())
-                {
-                    if(isCurrentUserAdmin)
-                    {
-                        adminMenu();
-                    }
-                    else
-                    {
-                        userMenu();
-                    }
-                }
-                break;
-            case 3:
-                viewProjectDetails();
-                break;
-            case 0:
-                printf("\nSaving all data...\n");
-                saveAllData();
-                printf("Thank you for using Library Management System!\n");
-                exit(0);
-            default:
-                printf("\nInvalid choice! Please try again.\n");
-                getchar();
-                choice();
-        }
-    }
-}
+
+
 
 // Register new user
 void registerUser()
@@ -300,7 +254,7 @@ void registerUser()
     if(userCount >= MAX_USERS)
     {
         printf("\tUser limit reached!\n");
-        getchar();
+      
         choice();
         return;
     }
@@ -316,7 +270,7 @@ void registerUser()
         if(strcmp(users[i].username, username) == 0)
         {
             printf("Username already exists! Please try another.\n");
-            getchar();
+          
             choice();
             return;
         }
@@ -333,7 +287,6 @@ void registerUser()
     saveUsersToFile();  // Save to file immediately
     
     printf("\nRegistration successful!\n");
-    getchar();
     choice();
 }
 
@@ -355,8 +308,7 @@ int loginUser()
     
     for(int i = 0; i < userCount; i++)
     {
-        if(strcmp(users[i].username, username) == 0 && 
-           strcmp(users[i].password, password) == 0)
+        if(strcmp(users[i].username, username) == 0 && strcmp(users[i].password, password) == 0)
         {
             strcpy(currentUser, username);
             isCurrentUserAdmin = users[i].isAdmin;
@@ -737,6 +689,8 @@ void searchBook()
                 printf("\t%-5s %-25s %-20s %-12s\n", "ID", "Title", "Author", "Status");
                 printf("\t------------------------------------------------------------\n");
             }
+
+
             found = 1;
             printf("\t%-5s %-25s %-20s %-12s\n",
                    books[i].id, 
@@ -809,10 +763,7 @@ void viewIssuedBooks()
     {
         if(books[i].isIssued && strcmp(books[i].issuedTo, currentUser) == 0)
         {
-            printf("\t%-5s %-25s %-20s\n", 
-                   books[i].id, 
-                   books[i].title, 
-                   books[i].author);
+            printf("\t%-5s %-25s %-20s\n",  books[i].id, books[i].title, books[i].author);
             count++;
         }
     }
@@ -893,8 +844,7 @@ void requestBook()
             // Check duplicate request
             for(int j = 0; j < requestCount; j++)
             {
-                if(strcmp(requests[j].username, currentUser) == 0 && 
-                   strcmp(requests[j].bookId, search_id) == 0 && 
+                if(strcmp(requests[j].username, currentUser) == 0 && strcmp(requests[j].bookId, search_id) == 0 && 
                    requests[j].status == 0)
                 {
                     printf("\n\t>> You already requested this book!\n\n");
@@ -1118,12 +1068,7 @@ void saveBooksToFile()
     }
     for(int i = 0; i < bookCount; i++)
     {
-        fprintf(fp, "%s,%s,%s,%d,%s\n", 
-                books[i].id, 
-                books[i].title, 
-                books[i].author, 
-                books[i].isIssued,
-                books[i].issuedTo);
+        fprintf(fp, "%s,%s,%s,%d,%s\n", books[i].id, books[i].title, books[i].author,  books[i].isIssued, books[i].issuedTo);
     }
     fclose(fp);
 }
@@ -1142,12 +1087,7 @@ void loadBooksFromFile()
     char line[500];
     while(bookCount < MAX_BOOKS && fgets(line, sizeof(line), fp) != NULL)
     {
-        int result = sscanf(line, "%[^,],%[^,],%[^,],%d,%[^\n]",
-                 books[bookCount].id, 
-                 books[bookCount].title, 
-                 books[bookCount].author,
-                 &books[bookCount].isIssued,
-                 books[bookCount].issuedTo);
+        int result = sscanf(line, "%[^,],%[^,],%[^,],%d,%[^\n]",books[bookCount].id, books[bookCount].title,  books[bookCount].author, &books[bookCount].isIssued,books[bookCount].issuedTo);
         
         if(result >= 4)
         {
@@ -1161,6 +1101,8 @@ void loadBooksFromFile()
     fclose(fp);
 }
 
+
+
 // Save users to file
 void saveUsersToFile()
 {
@@ -1171,15 +1113,15 @@ void saveUsersToFile()
         printf("Error saving users!\n");
         return;
     }
+
+
     for(int i = 0; i < userCount; i++)
     {
-        fprintf(fp, "%s,%s,%d\n", 
-                users[i].username, 
-                users[i].password, 
-                users[i].isAdmin);
+        fprintf(fp, "%s,%s,%d\n", users[i].username, users[i].password, users[i].isAdmin);
     }
     fclose(fp);
 }
+
 
 // Load users from file
 void loadUsersFromFile()
@@ -1193,15 +1135,14 @@ void loadUsersFromFile()
     
     userCount = 0;
     while(userCount < MAX_USERS && 
-          fscanf(fp, "%[^,],%[^,],%d\n",
-                 users[userCount].username, 
-                 users[userCount].password,
-                 &users[userCount].isAdmin) == 3)
+          fscanf(fp, "%[^,],%[^,],%d\n", users[userCount].username,  users[userCount].password,&users[userCount].isAdmin) == 3)
     {
         userCount++;
     }
     fclose(fp);
 }
+
+
 
 // Save messages to file
 void saveMessagesToFile()
@@ -1242,6 +1183,8 @@ void loadMessagesFromFile()
     }
     fclose(fp);
 }
+
+
 
 // Save requests to file
 void saveRequestsToFile()

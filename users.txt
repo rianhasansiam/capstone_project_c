@@ -13,3 +13,5 @@ s,sd,0
 iam\Desktop\capstone\Library_Management_System\",&&,0
 cc,library_system.c,0
 o,library_system,0
+asdasd,123,0
+ra,123,0

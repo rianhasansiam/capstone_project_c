@@ -1,9 +1,9 @@
 #include <stdio.h>      
-#include <stdlib.h>      // Standard library (memory allocation, system commands)
+#include <stdlib.h>      
 #include <string.h>      
-#include <conio.h>       // Console input/output (getch function)
+#include <conio.h>       
 
-// Maximum limits for arrays
+
 #define MAX_BOOKS 100       
 #define MAX_USERS 50       
 #define MAX_MESSAGES 50     
@@ -15,35 +15,35 @@
 // Structure to store book information
 struct Book
 {
-    char id[20];                  // Book ID (unique identifier)
-    char title[MAX_STRING];       // Book title
-    char author[MAX_STRING];      // Author name
-    int isIssued;                 // 0 = available, 1 = issued
-    char issuedTo[MAX_STRING];    // Username of person who borrowed the book
+    char id[20];                 
+    char title[MAX_STRING];       
+    char author[MAX_STRING];      
+    int isIssued;                 
+    char issuedTo[MAX_STRING];    
 };
 
 // Structure to store user information
 struct User
 {
-    char username[MAX_STRING];    // Username (unique)
-    char password[MAX_STRING];    // Password
-    int isAdmin;                  // 0 = regular user, 1 = admin
+    char username[MAX_STRING];    
+    char password[MAX_STRING];    
+    int isAdmin;                  
 };
 
 // Structure to store messages from users to admin
 struct Message
 {
-    char username[MAX_STRING];    // Sender username
-    char message[MAX_STRING];     // Message content
+    char username[MAX_STRING];    
+    char message[MAX_STRING];     
 };
 
 // Structure to store book issue requests
 struct BookRequest
 {
-    char username[MAX_STRING];    // Requester username
-    char bookId[20];              // Requested book ID
-    char bookTitle[MAX_STRING];   // Book title
-    int status;                   // 0 = pending, 1 = approved, 2 = rejected
+    char username[MAX_STRING];    
+    char bookId[20];              
+    char bookTitle[MAX_STRING];   
+    int status;                   
 };
 
 /*
@@ -65,8 +65,8 @@ int messageCount = 0;
 int requestCount = 0;    
 
 // Current session information
-char currentUser[MAX_STRING];  // Logged in username
-int isCurrentUserAdmin = 0;    // Is current user admin?
+char currentUser[MAX_STRING];  
+int isCurrentUserAdmin = 0;    
 
 /*
 ========================================
@@ -75,51 +75,50 @@ int isCurrentUserAdmin = 0;    // Is current user admin?
 */
 
 // Utility functions
-void choice();                    // Ask user to continue or exit
+void choice();                    
 
 // File operations
-void loadAllData();               // Load all data from files
-void saveAllData();               // Save all data to files
+void loadAllData();               
+void saveAllData();               
 
 
-void saveBooksToFile();           // Save books to books.txt
-void loadBooksFromFile();         // Load books from books.txt
+void saveBooksToFile();           
+void loadBooksFromFile();         
+void saveUsersToFile();           
+void loadUsersFromFile();         
 
-void saveUsersToFile();           // Save users to users.txt
-void loadUsersFromFile();         // Load users from users.txt
+void saveMessagesToFile();        
+void loadMessagesFromFile();      
 
-void saveMessagesToFile();        // Save messages to messages.txt
-void loadMessagesFromFile();      // Load messages from messages.txt
+void saveRequestsToFile();        
+void loadRequestsFromFile();      
 
-void saveRequestsToFile();        // Save requests to requests.txt
-void loadRequestsFromFile();      // Load requests from requests.txt
-
-void saveProjectInfo();           // Generate project statistics report
+void saveProjectInfo();           
 
 // System functions
-void viewProjectDetails();        // Show about/info page
+void viewProjectDetails();        
 
 // User management
-void registerUser();              // Register new user
-int loginUser();                  // Login and authenticate user
+void registerUser();              
+int loginUser();                  
 
 // Admin menu functions
-void adminMenu();                 // Display admin panel
-void displayBooks();              // Show all books (admin)
-void addBook();                   // Add new book
-void deleteBook();                // Delete book
-void updateBook();                // Update book details
-void searchBook();                // Search for books
-void viewPendingRequests();       // View pending requests
-void approveRequest();            // Approve or reject request
+void adminMenu();                 
+void displayBooks();             
+void addBook();                   
+void deleteBook();                
+void updateBook();                
+void searchBook();                
+void viewPendingRequests();      
+void approveRequest();            
 
 // User menu functions
-void userMenu();                  // Display user panel
-void viewAvailableBooks();        // View all books (user)
-void viewIssuedBooks();           // View books issued to current user
-void requestBook();               // Request a book
-void viewMyRequests();            // View user's request history
-void dropMessage();               // Send message to admin
+void userMenu();                  
+void viewAvailableBooks();        
+void viewIssuedBooks();          
+void requestBook();               
+void viewMyRequests();            
+void dropMessage();               
 
 /*
 ========================================
@@ -135,12 +134,12 @@ void choice()
     scanf(" %c", &ch);
     if (ch == 'y' || ch == 'Y')
     {
-        system("cls");  // Clear screen
+        system("cls");  
     }
     else if (ch == 'n' || ch == 'N')
     {
         printf("Thank You");
-        exit(0);  // Exit program
+        exit(0);  
     }
 }
 
@@ -152,24 +151,29 @@ void choice()
 
 int main()
 {
-    loadAllData();       // Load all existing data from database files
+    loadAllData();       
  
    int ch;
     
     while(1)
     {
         system("cls");
-        printf("\n");
-        printf("\t********************************************\n");
-        printf("\t*                                          *\n");
-        printf("\t*   LIBRARY MANAGEMENT SYSTEM              *\n");
-        printf("\t*                                          *\n");
-        printf("\t********************************************\n\n");
-        printf("\t[1] Register New User\n");
-        printf("\t[2] Login\n");
-        printf("\t[3] About Project\n");
-        printf("\t[0] Exit\n\n");
-        printf("\t============================================\n");
+        printf("\n\n");
+        printf("\t LL        IIII  BBBBBB   RRRRRR    AAAAAA  RRRRRR   YY   YY\n");
+        printf("\t LL         II   BB   BB  RR   RR  AA    AA RR   RR   YY YY\n");
+        printf("\t LL         II   BBBBBB   RRRRRR   AAAAAAAA RRRRRR     YYY\n");
+        printf("\t LL         II   BB   BB  RR  RR   AA    AA RR  RR      YY\n");
+        printf("\t LLLLLLLL  IIII  BBBBBB   RR   RR  AA    AA RR   RR     YY\n");
+        printf("\n\n");
+        printf("\t+============================================================+\n");
+        printf("\t|                      MAIN MENU                             |\n");
+        printf("\t+============================================================+\n\n");
+        printf("\t+===========================+  +===========================+\n");
+        printf("\t|  1. Register New User     |  |  2. Login                 |\n");
+        printf("\t+===========================+  +===========================+\n\n");
+        printf("\t+===========================+  +===========================+\n");
+        printf("\t|  3. About Project         |  |  0. Exit                  |\n");
+        printf("\t+===========================+  +===========================+\n\n");
         printf("\tEnter your choice: ");
         scanf("%d", &ch);
         
@@ -222,20 +226,20 @@ int main()
 // Load all data from database files
 void loadAllData()
 {
-    loadUsersFromFile();      // Load users from users.txt
-    loadBooksFromFile();      // Load books from books.txt
-    loadMessagesFromFile();   // Load messages from messages.txt
-    loadRequestsFromFile();   // Load requests from requests.txt
+    loadUsersFromFile();      
+    loadBooksFromFile();      
+    loadMessagesFromFile();   
+    loadRequestsFromFile();   
 }
 
 // Save all data to database files
 void saveAllData()
 {
-    saveBooksToFile();        // Save books to books.txt
-    saveUsersToFile();        // Save users to users.txt
-    saveMessagesToFile();     // Save messages to messages.txt
-    saveRequestsToFile();     // Save requests to requests.txt
-    saveProjectInfo();        // Generate statistics report
+    saveBooksToFile();        
+    saveUsersToFile();        
+    saveMessagesToFile();     
+    saveRequestsToFile();     
+    saveProjectInfo();        
 }
 
 
@@ -246,10 +250,16 @@ void saveAllData()
 void registerUser()
 {
     system("cls");
-    printf("\n");
-    printf("\t==========================================\n");
-    printf("\t      USER REGISTRATION\n");
-    printf("\t==========================================\n\n");
+    printf("\n\n");
+    printf("\t LL        IIII  BBBBBB   RRRRRR    AAAAAA  RRRRRR   YY   YY\n");
+    printf("\t LL         II   BB   BB  RR   RR  AA    AA RR   RR   YY YY\n");
+    printf("\t LL         II   BBBBBB   RRRRRR   AAAAAAAA RRRRRR     YYY\n");
+    printf("\t LL         II   BB   BB  RR  RR   AA    AA RR  RR      YY\n");
+    printf("\t LLLLLLLL  IIII  BBBBBB   RR   RR  AA    AA RR   RR     YY\n");
+    printf("\n\n");
+    printf("\t+============================================================+\n");
+    printf("\t|                   USER REGISTRATION                        |\n");
+    printf("\t+============================================================+\n\n");
     
     if(userCount >= MAX_USERS)
     {
@@ -294,10 +304,16 @@ void registerUser()
 int loginUser()
 {
     system("cls");
-    printf("\n");
-    printf("\t==========================================\n");
-    printf("\t           LOGIN\n");
-    printf("\t==========================================\n\n");
+    printf("\n\n");
+    printf("\t LL        IIII  BBBBBB   RRRRRR    AAAAAA  RRRRRR   YY   YY\n");
+    printf("\t LL         II   BB   BB  RR   RR  AA    AA RR   RR   YY YY\n");
+    printf("\t LL         II   BBBBBB   RRRRRR   AAAAAAAA RRRRRR     YYY\n");
+    printf("\t LL         II   BB   BB  RR  RR   AA    AA RR  RR      YY\n");
+    printf("\t LLLLLLLL  IIII  BBBBBB   RR   RR  AA    AA RR   RR     YY\n");
+    printf("\n\n");
+    printf("\t+============================================================+\n");
+    printf("\t|                        LOGIN                               |\n");
+    printf("\t+============================================================+\n\n");
     
     char username[MAX_STRING], password[MAX_STRING];
     
@@ -329,10 +345,16 @@ int loginUser()
 void viewProjectDetails()
 {
     system("cls");
-    printf("\n");
-    printf("\t==========================================\n");
-    printf("\t      ABOUT THIS PROJECT\n");
-    printf("\t==========================================\n\n");
+    printf("\n\n");
+    printf("\t LL        IIII  BBBBBB   RRRRRR    AAAAAA  RRRRRR   YY   YY\n");
+    printf("\t LL         II   BB   BB  RR   RR  AA    AA RR   RR   YY YY\n");
+    printf("\t LL         II   BBBBBB   RRRRRR   AAAAAAAA RRRRRR     YYY\n");
+    printf("\t LL         II   BB   BB  RR  RR   AA    AA RR  RR      YY\n");
+    printf("\t LLLLLLLL  IIII  BBBBBB   RR   RR  AA    AA RR   RR     YY\n");
+    printf("\n\n");
+    printf("\t+============================================================+\n");
+    printf("\t|                   ABOUT THIS PROJECT                       |\n");
+    printf("\t+============================================================+\n\n");
     printf("\tProject Name: Library Management System\n");
     printf("\tLanguage: C Programming\n");
     printf("\tAuthor: Rian || Fabiha || Karib\n\n");
@@ -362,21 +384,32 @@ void adminMenu()
     while(1)
     {
         system("cls");
-        printf("\n");
-        printf("\t==========================================\n");
-        printf("\t        ADMIN PANEL\n");
-        printf("\t==========================================\n\n");
-        printf("\t[1] Display All Books\n");
-        printf("\t[2] Add New Book\n");
-        printf("\t[3] Update Book\n");
-        printf("\t[4] Delete Book\n");
-        printf("\t[5] Search Book\n");
-        printf("\t[6] View Pending Requests\n");
-        printf("\t[7] Approve/Reject Request\n");
-        printf("\t[8] View User Messages\n");
-        printf("\t[0] Logout\n\n");
-        printf("\t==========================================\n");
-        printf("\tEnter choice: ");
+        printf("\n\n");
+        printf("\t LL        IIII  BBBBBB   RRRRRR    AAAAAA  RRRRRR   YY   YY\n");
+        printf("\t LL         II   BB   BB  RR   RR  AA    AA RR   RR   YY YY\n");
+        printf("\t LL         II   BBBBBB   RRRRRR   AAAAAAAA RRRRRR     YYY\n");
+        printf("\t LL         II   BB   BB  RR  RR   AA    AA RR  RR      YY\n");
+        printf("\t LLLLLLLL  IIII  BBBBBB   RR   RR  AA    AA RR   RR     YY\n");
+        printf("\n\n");
+        printf("\t+============================================================+\n");
+        printf("\t|                      ADMIN MENU                            |\n");
+        printf("\t+============================================================+\n\n");
+        printf("\t+===========================+  +===========================+\n");
+        printf("\t|  1. Display All Books     |  |  2. Add New Book          |\n");
+        printf("\t+===========================+  +===========================+\n\n");
+        printf("\t+===========================+  +===========================+\n");
+        printf("\t|  3. Update Book           |  |  4. Delete Book           |\n");
+        printf("\t+===========================+  +===========================+\n\n");
+        printf("\t+===========================+  +===========================+\n");
+        printf("\t|  5. Search Book           |  |  6. View Pending Requests |\n");
+        printf("\t+===========================+  +===========================+\n\n");
+        printf("\t+===========================+  +===========================+\n");
+        printf("\t|  7. Approve/Reject Request|  |  8. View User Messages    |\n");
+        printf("\t+===========================+  +===========================+\n\n");
+        printf("\t+===========================+\n");
+        printf("\t|  0. Logout                |\n");
+        printf("\t+===========================+\n\n");
+        printf("\tEnter your choice: ");
         scanf("%d", &ch);
         
         switch(ch)
@@ -442,19 +475,29 @@ void userMenu()
     while(1)
     {
         system("cls");
-        printf("\n");
-        printf("\t==========================================\n");
-        printf("\t        USER PANEL\n");
-        printf("\t==========================================\n\n");
-        printf("\t[1] View All Books\n");
-        printf("\t[2] Search Book\n");
-        printf("\t[3] Request a Book\n");
-        printf("\t[4] My Book Requests\n");
-        printf("\t[5] My Issued Books\n");
-        printf("\t[6] Send Message to Admin\n");
-        printf("\t[0] Logout\n\n");
-        printf("\t==========================================\n");
-        printf("\tEnter choice: ");
+        printf("\n\n");
+        printf("\t LL        IIII  BBBBBB   RRRRRR    AAAAAA  RRRRRR   YY   YY\n");
+        printf("\t LL         II   BB   BB  RR   RR  AA    AA RR   RR   YY YY\n");
+        printf("\t LL         II   BBBBBB   RRRRRR   AAAAAAAA RRRRRR     YYY\n");
+        printf("\t LL         II   BB   BB  RR  RR   AA    AA RR  RR      YY\n");
+        printf("\t LLLLLLLL  IIII  BBBBBB   RR   RR  AA    AA RR   RR     YY\n");
+        printf("\n\n");
+        printf("\t+============================================================+\n");
+        printf("\t|                      USER MENU                             |\n");
+        printf("\t+============================================================+\n\n");
+        printf("\t+===========================+  +===========================+\n");
+        printf("\t|  1. View All Books        |  |  2. Search Book           |\n");
+        printf("\t+===========================+  +===========================+\n\n");
+        printf("\t+===========================+  +===========================+\n");
+        printf("\t|  3. Request a Book        |  |  4. My Book Requests      |\n");
+        printf("\t+===========================+  +===========================+\n\n");
+        printf("\t+===========================+  +===========================+\n");
+        printf("\t|  5. My Issued Books       |  |  6. Send Message to Admin |\n");
+        printf("\t+===========================+  +===========================+\n\n");
+        printf("\t+===========================+\n");
+        printf("\t|  0. Logout                |\n");
+        printf("\t+===========================+\n\n");
+        printf("\tEnter your choice: ");
         scanf("%d", &ch);
         
         switch(ch)
@@ -522,9 +565,16 @@ void displayBooks()
 void addBook()
 {
     system("cls");
-    printf("\n\t==========================================\n");
-    printf("\t        ADD NEW BOOK\n");
-    printf("\t==========================================\n\n");
+    printf("\n\n");
+    printf("\t LL        IIII  BBBBBB   RRRRRR    AAAAAA  RRRRRR   YY   YY\n");
+    printf("\t LL         II   BB   BB  RR   RR  AA    AA RR   RR   YY YY\n");
+    printf("\t LL         II   BBBBBB   RRRRRR   AAAAAAAA RRRRRR     YYY\n");
+    printf("\t LL         II   BB   BB  RR  RR   AA    AA RR  RR      YY\n");
+    printf("\t LLLLLLLL  IIII  BBBBBB   RR   RR  AA    AA RR   RR     YY\n");
+    printf("\n\n");
+    printf("\t+============================================================+\n");
+    printf("\t|                     ADD NEW BOOK                           |\n");
+    printf("\t+============================================================+\n\n");
     
     if(bookCount >= MAX_BOOKS)
     {
@@ -559,9 +609,16 @@ void addBook()
 void deleteBook()
 {
     system("cls");
-    printf("\n\t==========================================\n");
-    printf("\t        DELETE BOOK\n");
-    printf("\t==========================================\n\n");
+    printf("\n\n");
+    printf("\t LL        IIII  BBBBBB   RRRRRR    AAAAAA  RRRRRR   YY   YY\n");
+    printf("\t LL         II   BB   BB  RR   RR  AA    AA RR   RR   YY YY\n");
+    printf("\t LL         II   BBBBBB   RRRRRR   AAAAAAAA RRRRRR     YYY\n");
+    printf("\t LL         II   BB   BB  RR  RR   AA    AA RR  RR      YY\n");
+    printf("\t LLLLLLLL  IIII  BBBBBB   RR   RR  AA    AA RR   RR     YY\n");
+    printf("\n\n");
+    printf("\t+============================================================+\n");
+    printf("\t|                      DELETE BOOK                           |\n");
+    printf("\t+============================================================+\n\n");
     
     char search_id[20];
     printf("\tEnter Book ID: ");
@@ -605,9 +662,16 @@ void deleteBook()
 void updateBook()
 {
     system("cls");
-    printf("\n\t==========================================\n");
-    printf("\t        UPDATE BOOK\n");
-    printf("\t==========================================\n\n");
+    printf("\n\n");
+    printf("\t LL        IIII  BBBBBB   RRRRRR    AAAAAA  RRRRRR   YY   YY\n");
+    printf("\t LL         II   BB   BB  RR   RR  AA    AA RR   RR   YY YY\n");
+    printf("\t LL         II   BBBBBB   RRRRRR   AAAAAAAA RRRRRR     YYY\n");
+    printf("\t LL         II   BB   BB  RR  RR   AA    AA RR  RR      YY\n");
+    printf("\t LLLLLLLL  IIII  BBBBBB   RR   RR  AA    AA RR   RR     YY\n");
+    printf("\n\n");
+    printf("\t+============================================================+\n");
+    printf("\t|                      UPDATE BOOK                           |\n");
+    printf("\t+============================================================+\n\n");
     
     char search_id[20];
     int ch;
@@ -661,9 +725,16 @@ void updateBook()
 void searchBook()
 {
     system("cls");
-    printf("\n\t==========================================\n");
-    printf("\t        SEARCH BOOK\n");
-    printf("\t==========================================\n\n");
+    printf("\n\n");
+    printf("\t LL        IIII  BBBBBB   RRRRRR    AAAAAA  RRRRRR   YY   YY\n");
+    printf("\t LL         II   BB   BB  RR   RR  AA    AA RR   RR   YY YY\n");
+    printf("\t LL         II   BBBBBB   RRRRRR   AAAAAAAA RRRRRR     YYY\n");
+    printf("\t LL         II   BB   BB  RR  RR   AA    AA RR  RR      YY\n");
+    printf("\t LLLLLLLL  IIII  BBBBBB   RR   RR  AA    AA RR   RR     YY\n");
+    printf("\n\n");
+    printf("\t+============================================================+\n");
+    printf("\t|                      SEARCH BOOK                           |\n");
+    printf("\t+============================================================+\n\n");
     
     if(bookCount == 0)
     {
@@ -714,9 +785,16 @@ void viewAvailableBooks()
 {
     loadBooksFromFile();
     system("cls");
-    printf("\n\t==========================================\n");
-    printf("\t        ALL BOOKS\n");
-    printf("\t==========================================\n\n");
+    printf("\n\n");
+    printf("\t LL        IIII  BBBBBB   RRRRRR    AAAAAA  RRRRRR   YY   YY\n");
+    printf("\t LL         II   BB   BB  RR   RR  AA    AA RR   RR   YY YY\n");
+    printf("\t LL         II   BBBBBB   RRRRRR   AAAAAAAA RRRRRR     YYY\n");
+    printf("\t LL         II   BB   BB  RR  RR   AA    AA RR  RR      YY\n");
+    printf("\t LLLLLLLL  IIII  BBBBBB   RR   RR  AA    AA RR   RR     YY\n");
+    printf("\n\n");
+    printf("\t+============================================================+\n");
+    printf("\t|                  AVAILABLE BOOKS                           |\n");
+    printf("\t+============================================================+\n\n");
     
     int count = 0;
     if(bookCount == 0)
@@ -752,9 +830,16 @@ void viewIssuedBooks()
 {
     loadBooksFromFile();
     system("cls");
-    printf("\n\t==========================================\n");
-    printf("\t        MY ISSUED BOOKS\n");
-    printf("\t==========================================\n\n");
+    printf("\n\n");
+    printf("\t LL        IIII  BBBBBB   RRRRRR    AAAAAA  RRRRRR   YY   YY\n");
+    printf("\t LL         II   BB   BB  RR   RR  AA    AA RR   RR   YY YY\n");
+    printf("\t LL         II   BBBBBB   RRRRRR   AAAAAAAA RRRRRR     YYY\n");
+    printf("\t LL         II   BB   BB  RR  RR   AA    AA RR  RR      YY\n");
+    printf("\t LLLLLLLL  IIII  BBBBBB   RR   RR  AA    AA RR   RR     YY\n");
+    printf("\n\n");
+    printf("\t+============================================================+\n");
+    printf("\t|                    MY ISSUED BOOKS                         |\n");
+    printf("\t+============================================================+\n\n");
     
     int count = 0;
     printf("\t%-5s %-25s %-20s\n", "ID", "Title", "Author");
@@ -781,9 +866,16 @@ void viewIssuedBooks()
 void dropMessage()
 {
     system("cls");
-    printf("\n\t==========================================\n");
-    printf("\t      SEND MESSAGE TO ADMIN\n");
-    printf("\t==========================================\n\n");
+    printf("\n\n");
+    printf("\t LL        IIII  BBBBBB   RRRRRR    AAAAAA  RRRRRR   YY   YY\n");
+    printf("\t LL         II   BB   BB  RR   RR  AA    AA RR   RR   YY YY\n");
+    printf("\t LL         II   BBBBBB   RRRRRR   AAAAAAAA RRRRRR     YYY\n");
+    printf("\t LL         II   BB   BB  RR  RR   AA    AA RR  RR      YY\n");
+    printf("\t LLLLLLLL  IIII  BBBBBB   RR   RR  AA    AA RR   RR     YY\n");
+    printf("\n\n");
+    printf("\t+============================================================+\n");
+    printf("\t|                 SEND MESSAGE TO ADMIN                      |\n");
+    printf("\t+============================================================+\n\n");
     
     if(messageCount >= MAX_MESSAGES)
     {
@@ -810,9 +902,16 @@ void dropMessage()
 void requestBook()
 {
     system("cls");
-    printf("\n\t==========================================\n");
-    printf("\t        REQUEST A BOOK\n");
-    printf("\t==========================================\n\n");
+    printf("\n\n");
+    printf("\t LL        IIII  BBBBBB   RRRRRR    AAAAAA  RRRRRR   YY   YY\n");
+    printf("\t LL         II   BB   BB  RR   RR  AA    AA RR   RR   YY YY\n");
+    printf("\t LL         II   BBBBBB   RRRRRR   AAAAAAAA RRRRRR     YYY\n");
+    printf("\t LL         II   BB   BB  RR  RR   AA    AA RR  RR      YY\n");
+    printf("\t LLLLLLLL  IIII  BBBBBB   RR   RR  AA    AA RR   RR     YY\n");
+    printf("\n\n");
+    printf("\t+============================================================+\n");
+    printf("\t|                    REQUEST A BOOK                          |\n");
+    printf("\t+============================================================+\n\n");
     
     if(requestCount >= MAX_REQUESTS)
     {
@@ -881,9 +980,16 @@ void viewMyRequests()
 {
     loadRequestsFromFile();
     system("cls");
-    printf("\n\t==========================================\n");
-    printf("\t        MY BOOK REQUESTS\n");
-    printf("\t==========================================\n\n");
+    printf("\n\n");
+    printf("\t LL        IIII  BBBBBB   RRRRRR    AAAAAA  RRRRRR   YY   YY\n");
+    printf("\t LL         II   BB   BB  RR   RR  AA    AA RR   RR   YY YY\n");
+    printf("\t LL         II   BBBBBB   RRRRRR   AAAAAAAA RRRRRR     YYY\n");
+    printf("\t LL         II   BB   BB  RR  RR   AA    AA RR  RR      YY\n");
+    printf("\t LLLLLLLL  IIII  BBBBBB   RR   RR  AA    AA RR   RR     YY\n");
+    printf("\n\n");
+    printf("\t+============================================================+\n");
+    printf("\t|                   MY BOOK REQUESTS                         |\n");
+    printf("\t+============================================================+\n\n");
     
     int count = 0;
     printf("\t%-10s %-25s %-15s\n", "Book ID", "Book Title", "Status");
@@ -954,9 +1060,16 @@ void approveRequest()
     loadRequestsFromFile();
     loadBooksFromFile();
     system("cls");
-    printf("\n\t==========================================\n");
-    printf("\t    APPROVE/REJECT REQUEST\n");
-    printf("\t==========================================\n\n");
+    printf("\n\n");
+    printf("\t LL        IIII  BBBBBB   RRRRRR    AAAAAA  RRRRRR   YY   YY\n");
+    printf("\t LL         II   BB   BB  RR   RR  AA    AA RR   RR   YY YY\n");
+    printf("\t LL         II   BBBBBB   RRRRRR   AAAAAAAA RRRRRR     YYY\n");
+    printf("\t LL         II   BB   BB  RR  RR   AA    AA RR  RR      YY\n");
+    printf("\t LLLLLLLL  IIII  BBBBBB   RR   RR  AA    AA RR   RR     YY\n");
+    printf("\n\n");
+    printf("\t+============================================================+\n");
+    printf("\t|                 APPROVE/REJECT REQUEST                     |\n");
+    printf("\t+============================================================+\n\n");
     
     int count = 0;
     printf("\t%-5s %-15s %-25s %-10s\n", "No.", "Username", "Book Title", "Book ID");
@@ -1130,7 +1243,7 @@ void loadUsersFromFile()
     fp = fopen("users.txt", "r");
     if(fp == NULL)
     {
-        return;  // File doesn't exist yet, that's okay
+        return;  
     }
     
     userCount = 0;
@@ -1170,7 +1283,7 @@ void loadMessagesFromFile()
     fp = fopen("messages.txt", "r");
     if(fp == NULL)
     {
-        return;  // File doesn't exist yet, that's okay
+        return;  
     }
     
     messageCount = 0;
@@ -1214,7 +1327,7 @@ void loadRequestsFromFile()
     fp = fopen("requests.txt", "r");
     if(fp == NULL)
     {
-        return;  // File doesn't exist yet, that's okay
+        return;  
     }
     
     requestCount = 0;
@@ -1353,6 +1466,4 @@ void saveProjectInfo()
     
     fclose(fp);
 }
-
-// Clear screen
 

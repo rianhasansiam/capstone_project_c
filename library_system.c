@@ -74,10 +74,10 @@ int isCurrentUserAdmin = 0;
 ========================================
 */
 
-// Utility functions
+
 void choice();                    
 
-// File operations
+
 void loadAllData();               
 void saveAllData();               
 
@@ -95,10 +95,10 @@ void loadRequestsFromFile();
 
 void saveProjectInfo();           
 
-// System functions
+
 void viewProjectDetails();        
 
-// User management
+
 void registerUser();              
 int loginUser();                  
 
@@ -120,13 +120,9 @@ void requestBook();
 void viewMyRequests();            
 void dropMessage();               
 
-/*
-========================================
-   UTILITY FUNCTIONS
-========================================
-*/
 
-// Function to ask user if they want to continue or exit
+
+
 void choice()
 {
     printf("Press y for menu, n for exit: ");
@@ -232,6 +228,10 @@ void loadAllData()
     loadRequestsFromFile();   
 }
 
+
+
+
+
 // Save all data to database files
 void saveAllData()
 {
@@ -299,6 +299,8 @@ void registerUser()
     printf("\nRegistration successful!\n");
     choice();
 }
+
+
 
 // Login user
 int loginUser()
@@ -549,11 +551,7 @@ void displayBooks()
         printf("\t------------------------------------------------------------\n");
         for(int i = 0; i < bookCount; i++)
         {
-            printf("\t%-5s %-25s %-20s %-12s\n", 
-                   books[i].id, 
-                   books[i].title, 
-                   books[i].author,
-                   books[i].isIssued ? "Issued" : "Available");
+            printf("\t%-5s %-25s %-20s %-12s\n",  books[i].id,  books[i].title,  books[i].author,books[i].isIssued ? "Issued" : "Available");
         }
     }
     printf("\n");
@@ -583,11 +581,16 @@ void addBook()
         choice();
         return;
     }
-    
+
+
+  
     char id[20];
     sprintf(id, "%d", bookCount + 1);
     strcpy(books[bookCount].id, id);
     
+
+
+
     getchar();
     printf("\tBook Title: ");
     gets(books[bookCount].title);
@@ -796,7 +799,6 @@ void viewAvailableBooks()
     printf("\t|                  AVAILABLE BOOKS                           |\n");
     printf("\t+============================================================+\n\n");
     
-    int count = 0;
     if(bookCount == 0)
     {
         printf("\tNo books available.\n");
@@ -812,14 +814,9 @@ void viewAvailableBooks()
                    books[i].title, 
                    books[i].author,
                    books[i].isIssued ? "Issued" : "Available");
-            count++;
         }
     }
     
-    if(count == 0)
-    {
-        printf("\tNo books available.\n");
-    }
     printf("\n");
     getchar();
     choice();
@@ -998,10 +995,13 @@ void viewMyRequests()
     {
         if(strcmp(requests[i].username, currentUser) == 0)
         {
-            char *status;
-            if(requests[i].status == 0) status = "Pending";
-            else if(requests[i].status == 1) status = "Approved";
-            else status = "Rejected";
+            char status[20];
+            if(requests[i].status == 0) 
+                strcpy(status, "Pending");
+            else if(requests[i].status == 1) 
+                strcpy(status, "Approved");
+            else 
+                strcpy(status, "Rejected");
             
             printf("\t%-10s %-25s %-15s\n", 
                    requests[i].bookId,
@@ -1236,6 +1236,11 @@ void saveUsersToFile()
 }
 
 
+
+
+
+
+
 // Load users from file
 void loadUsersFromFile()
 {
@@ -1450,10 +1455,13 @@ void saveProjectInfo()
         {
             fprintf(fp, "User: %s\n", requests[i].username);
             fprintf(fp, "Book: %s (ID: %s)\n", requests[i].bookTitle, requests[i].bookId);
-            char *status;
-            if(requests[i].status == 0) status = "Pending";
-            else if(requests[i].status == 1) status = "Approved";
-            else status = "Rejected";
+            char status[20];
+            if(requests[i].status == 0) 
+                strcpy(status, "Pending");
+            else if(requests[i].status == 1) 
+                strcpy(status, "Approved");
+            else 
+                strcpy(status, "Rejected");
             fprintf(fp, "Status: %s\n", status);
             fprintf(fp, "\n");
         }
